@@ -21,8 +21,8 @@ public class CreditPage {
     private SelenideElement client = $(byText("Владелец")).parent().$(".input__control");
     private SelenideElement cvc = $("[placeholder='999']");
     private SelenideElement continueButton = $$(".button_theme_alfa-on-white .button__text").findBy(exactText("Продолжить"));
-    private SelenideElement success = $(".icon_name_ok");
-    private SelenideElement error = $(".icon_name_error");
+    private SelenideElement success = $(".notification_status_ok");
+    private SelenideElement error = $(".notification_status_error");
     private SelenideElement formatError = $(".input__sub");
 
     public CreditPage() {
