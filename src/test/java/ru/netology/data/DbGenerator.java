@@ -45,7 +45,6 @@ public class DbGenerator {
         return status;
     }
 
-
     @SneakyThrows
     public static String paymentStatus() {
         var statusSQL = "SELECT status FROM payment_entity;";
