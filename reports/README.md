@@ -4,7 +4,7 @@
 ## Автоматизация
 ### Процедура запуска авто-тестов 
 1) скачать репозиторий командой git clone
-2) запустить docker контейнеры командой docker-compose up
+2) запустить docker контейнеры командой docker-compose up -d
 3) запустить sut:
 
 3.1 для mysql:  java -Dspring.datasource.url=jdbc:mysql://localhost:3306/app -jar artifacts/aqa-shop.jar
