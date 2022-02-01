@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.data.DataGenerator;
 import ru.netology.data.DbGenerator;
-import ru.netology.page.BuyPage;
 import ru.netology.page.DashboardPage;
 
 import static com.codeborne.selenide.Selenide.open;
@@ -31,332 +30,166 @@ public class PaymentTest {
         SelenideLogger.removeListener("allure");
     }
 
-    @Test // падает
-    public void shouldPayApprovedCard() {
+    @Test
+    public void shouldBuyWithApprovedCard() {
         DbGenerator.cleanData();
-        var card = DataGenerator.approvedCard();
+        var card = DataGenerator.getApprovedCard();
         var dashboardPage = new DashboardPage();
-        var fillBuyPage = dashboardPage.buyPage();
+        var fillBuyPage = dashboardPage.openBuyPage();
         fillBuyPage.fillForm(card);
-        fillBuyPage.successStatus();
-        assertEquals("APPROVED", DbGenerator.paymentStatus());
-    }
-
-    @Test // падает
-    public void shouldCreditApprovedCard() {
-        DbGenerator.cleanData();
-        var card = DataGenerator.approvedCard();
-        var dashboardPage = new DashboardPage();
-        var fillCreditPage = dashboardPage.creditPage();
-        fillCreditPage.fillForm(card);
-        fillCreditPage.successStatus();
-        assertEquals("APPROVED", DbGenerator.creditStatus());
+        fillBuyPage.getSuccessStatus();
+        assertEquals("APPROVED", DbGenerator.getPaymentStatus());
     }
 
     @Test //падает, успешно
-    public void shouldPayDeclinedCard() {
+    public void shouldBuyWithDeclinedCard() {
         DbGenerator.cleanData();
-        var card = DataGenerator.declinedCard();
+        var card = DataGenerator.getDeclinedCard();
         var dashboardPage = new DashboardPage();
-        var fillBuyPage = dashboardPage.buyPage();
+        var fillBuyPage = dashboardPage.openBuyPage();
         fillBuyPage.fillForm(card);
-        fillBuyPage.errorStatus();
-        assertEquals("DECLINED", DbGenerator.paymentStatus());
-    }
-
-    @Test //падает, успешно
-    public void shouldCreditDeclinedCard() {
-        DbGenerator.cleanData();
-        var card = DataGenerator.declinedCard();
-        var dashboardPage = new DashboardPage();
-        var fillCreditPage = dashboardPage.creditPage();
-        fillCreditPage.fillForm(card);
-        fillCreditPage.errorStatus();
-        assertEquals("DECLINED", DbGenerator.creditStatus());
+        fillBuyPage.getErrorStatus();
+        assertEquals("DECLINED", DbGenerator.getPaymentStatus());
     }
 
     @Test //падает
     public void shouldBuyUsingNotExistCard() {
         DbGenerator.cleanData();
-        var card = DataGenerator.notExistCard();
+        var card = DataGenerator.getNotExistCard();
         var dashboardPage = new DashboardPage();
-        var fillBuyPage = dashboardPage.buyPage();
+        var fillBuyPage = dashboardPage.openBuyPage();
         fillBuyPage.fillForm(card);
-        fillBuyPage.errorStatus();
-        assertEquals("Ошибка", DbGenerator.paymentStatus());
+        fillBuyPage.getErrorStatus();
+        assertEquals("Ошибка", DbGenerator.getPaymentStatus());
     }
 
-    @Test // падает
-    public void shouldCreditUsingNotExistCard() {
+    @Test
+    public void shouldBuyWithWrongMonthCard() {
         DbGenerator.cleanData();
-        var card = DataGenerator.notExistCard();
+        var card = DataGenerator.getWrongMonthCard();
         var dashboardPage = new DashboardPage();
-        var fillCreditPage = dashboardPage.creditPage();
-        fillCreditPage.fillForm(card);
-        fillCreditPage.errorStatus();
-        assertEquals("Ошибка", DbGenerator.creditStatus());
-    }
-
-    @Test // ok
-    public void wrongMonthCard() {
-        DbGenerator.cleanData();
-        var card = DataGenerator.wrongMonthCard();
-        var dashboardPage = new DashboardPage();
-        var fillPayPage = dashboardPage.buyPage();
+        var fillPayPage = dashboardPage.openBuyPage();
         fillPayPage.fillForm(card);
-        assertEquals("Неверный формат", fillPayPage.invalidData());
-
+        assertEquals("Неверный формат", fillPayPage.getInvalidData());
     }
 
-    @Test // ok
-    public void wrongMonthCardCredit() {
+    @Test
+    public void shouldBuyWithWrongYearCard() {
         DbGenerator.cleanData();
-        var card = DataGenerator.wrongMonthCard();
+        var card = DataGenerator.getWrongYearCard();
         var dashboardPage = new DashboardPage();
-        var fillCreditPage = dashboardPage.creditPage();
-        fillCreditPage.fillForm(card);
-        assertEquals("Неверный формат", fillCreditPage.wrongFormat());
-
-    }
-
-    @Test // ok
-    public void wrongYearCard() {
-        DbGenerator.cleanData();
-        var card = DataGenerator.wrongYearCard();
-        var dashboardPage = new DashboardPage();
-        var fillPayPage = dashboardPage.buyPage();
+        var fillPayPage = dashboardPage.openBuyPage();
         fillPayPage.fillForm(card);
-        assertEquals("Неверный формат", fillPayPage.invalidData());
+        assertEquals("Неверный формат", fillPayPage.getInvalidData());
     }
 
-    @Test // ok
-    public void wrongYearCardCredit() {
+    @Test
+    public void shouldBuyWithWrongCardNumber() {
         DbGenerator.cleanData();
-        var card = DataGenerator.wrongYearCard();
+        var card = DataGenerator.getWrongNumberCard();
         var dashboardPage = new DashboardPage();
-        var fillCreditPage = dashboardPage.creditPage();
-        fillCreditPage.fillForm(card);
-        assertEquals("Неверный формат", fillCreditPage.wrongFormat());
-    }
-
-    @Test // ok
-    public void wrongCardNumber() {
-        DbGenerator.cleanData();
-        var card = DataGenerator.wrongNumberCard();
-        var dashboardPage = new DashboardPage();
-        var fillPayPage = dashboardPage.buyPage();
+        var fillPayPage = dashboardPage.openBuyPage();
         fillPayPage.fillForm(card);
-        assertEquals("Неверный формат", fillPayPage.invalidData());
-    }
-
-    @Test //ok
-    public void wrongCardNumberCredit() {
-        DbGenerator.cleanData();
-        var card = DataGenerator.wrongNumberCard();
-        var dashboardPage = new DashboardPage();
-        var fillCreditPage = dashboardPage.creditPage();
-        fillCreditPage.fillForm(card);
-        assertEquals("Неверный формат", fillCreditPage.wrongFormat());
+        assertEquals("Неверный формат", fillPayPage.getInvalidData());
     }
 
     @Test //падает, успешно
-    public void wrongClientNameCard() {
+    public void shouldBuyWithWrongClientNameCard() {
         DbGenerator.cleanData();
-        var card = DataGenerator.wrongClientNameCard();
+        var card = DataGenerator.getWrongClientNameCard();
         var dashboardPage = new DashboardPage();
-        var fillPayPage = dashboardPage.buyPage();
+        var fillPayPage = dashboardPage.openBuyPage();
         fillPayPage.fillForm(card);
-        assertEquals("Неверный формат", fillPayPage.invalidData());
+        assertEquals("Неверный формат", fillPayPage.getInvalidData());
     }
 
-    @Test //падает, успешно
-    public void wrongClientNameCardCredit() {
+    @Test
+    public void shouldBuyWithWrongClientCvcCard() {
         DbGenerator.cleanData();
-        var card = DataGenerator.wrongClientNameCard();
+        var card = DataGenerator.getWrongClientCvcCard();
         var dashboardPage = new DashboardPage();
-        var fillCreditPage = dashboardPage.creditPage();
-        fillCreditPage.fillForm(card);
-        assertEquals("Неверный формат", fillCreditPage.wrongFormat());
-    }
-
-    @Test //ок
-    public void wrongClientCvcCard() {
-        DbGenerator.cleanData();
-        var card = DataGenerator.wrongClientCvcCard();
-        var dashboardPage = new DashboardPage();
-        var fillPayPage = dashboardPage.buyPage();
+        var fillPayPage = dashboardPage.openBuyPage();
         fillPayPage.fillForm(card);
-        assertEquals("Неверный формат", fillPayPage.invalidData());
+        assertEquals("Неверный формат", fillPayPage.getInvalidData());
     }
 
-    @Test //ок
-    public void wrongClientCvcCardCredit() {
+    @Test
+    public void shouldBuyWithEmptyForm() {
         DbGenerator.cleanData();
-        var card = DataGenerator.wrongClientCvcCard();
+        var card = DataGenerator.getEmptyForm();
         var dashboardPage = new DashboardPage();
-        var fillCreditPage = dashboardPage.creditPage();
-        fillCreditPage.fillForm(card);
-        assertEquals("Неверный формат", fillCreditPage.wrongFormat());
-    }
-
-    @Test //ок
-    public void emptyForm() {
-        DbGenerator.cleanData();
-        var card = DataGenerator.emptyForm();
-        var dashboardPage = new DashboardPage();
-        var fillPayPage = dashboardPage.buyPage();
+        var fillPayPage = dashboardPage.openBuyPage();
         fillPayPage.fillForm(card);
-        assertEquals("Неверный формат", fillPayPage.invalidData());
+        assertEquals("Неверный формат", fillPayPage.getInvalidData());
     }
 
-    @Test //ок
-    public void emptyFormCredit() {
+    @Test
+    public void shouldBuyWithWithPastYearCard() {
         DbGenerator.cleanData();
-        var card = DataGenerator.emptyForm();
+        var card = DataGenerator.getPastYearCard();
         var dashboardPage = new DashboardPage();
-        var fillCreditPage = dashboardPage.creditPage();
-        fillCreditPage.fillForm(card);
-        assertEquals("Неверный формат", fillCreditPage.wrongFormat());
-    }
-
-    @Test //ok
-    public void pastYearCard() {
-        DbGenerator.cleanData();
-        var card = DataGenerator.pastYearCard();
-        var dashboardPage = new DashboardPage();
-        var fillPayPage = dashboardPage.buyPage();
+        var fillPayPage = dashboardPage.openBuyPage();
         fillPayPage.fillForm(card);
-        assertEquals("Истёк срок действия карты", fillPayPage.invalidData());
-    }
-
-    @Test //ok
-    public void pastYearCardCredit() {
-        DbGenerator.cleanData();
-        var card = DataGenerator.pastYearCard();
-        var dashboardPage = new DashboardPage();
-        var fillCreditPage = dashboardPage.creditPage();
-        fillCreditPage.fillForm(card);
-        assertEquals("Истёк срок действия карты", fillCreditPage.wrongFormat());
+        assertEquals("Истёк срок действия карты", fillPayPage.getInvalidData());
     }
 
     @Test //падает
-    public void symbolsInClientNameCard() {
+    public void shouldBuyWithSymbolsInClientNameCard() {
         DbGenerator.cleanData();
-        var card = DataGenerator.symbolsInClientNameCard();
+        var card = DataGenerator.getSymbolsInClientNameCard();
         var dashboardPage = new DashboardPage();
-        var fillPayPage = dashboardPage.buyPage();
+        var fillPayPage = dashboardPage.openBuyPage();
         fillPayPage.fillForm(card);
-        assertEquals("Неверный формат", fillPayPage.invalidData());
+        assertEquals("Неверный формат", fillPayPage.getInvalidData());
     }
 
-    @Test //падает
-    public void symbolsInClientNameCardCredit() {
+    @Test
+    public void shouldBuyWithEmptyCardNumber() {
         DbGenerator.cleanData();
-        var card = DataGenerator.symbolsInClientNameCard();
+        var card = DataGenerator.getEmptyCardNumber();
         var dashboardPage = new DashboardPage();
-        var fillCreditPage = dashboardPage.creditPage();
-        fillCreditPage.fillForm(card);
-        assertEquals("Неверный формат", fillCreditPage.wrongFormat());
-    }
-
-    @Test //ok
-    public void emptyCardNumber() {
-        DbGenerator.cleanData();
-        var card = DataGenerator.emptyCardNumber();
-        var dashboardPage = new DashboardPage();
-        var fillPayPage = dashboardPage.buyPage();
+        var fillPayPage = dashboardPage.openBuyPage();
         fillPayPage.fillForm(card);
-        assertEquals("Неверный формат", fillPayPage.invalidData());
+        assertEquals("Неверный формат", fillPayPage.getInvalidData());
     }
 
-    @Test //ok
-    public void emptyCardNumberCredit() {
+    @Test
+    public void shouldBuyWithEmptyCardMonth() {
         DbGenerator.cleanData();
-        var card = DataGenerator.emptyCardNumber();
+        var card = DataGenerator.getEmptyMonth();
         var dashboardPage = new DashboardPage();
-        var fillCreditPage = dashboardPage.creditPage();
-        fillCreditPage.fillForm(card);
-        assertEquals("Неверный формат", fillCreditPage.wrongFormat());
-    }
-
-    @Test //ok
-    public void emptyCardMonth() {
-        DbGenerator.cleanData();
-        var card = DataGenerator.emptyMonth();
-        var dashboardPage = new DashboardPage();
-        var fillPayPage = dashboardPage.buyPage();
+        var fillPayPage = dashboardPage.openBuyPage();
         fillPayPage.fillForm(card);
-        assertEquals("Неверный формат", fillPayPage.invalidData());
+        assertEquals("Неверный формат", fillPayPage.getInvalidData());
     }
 
-    @Test //ok
-    public void emptyCardMonthCredit() {
+    @Test
+    public void shouldBuyWithEmptyCardYear() {
         DbGenerator.cleanData();
-        var card = DataGenerator.emptyMonth();
+        var card = DataGenerator.getEmptyYear();
         var dashboardPage = new DashboardPage();
-        var fillCreditPage = dashboardPage.creditPage();
-        fillCreditPage.fillForm(card);
-        assertEquals("Неверный формат", fillCreditPage.wrongFormat());
-    }
-
-    @Test //ok
-    public void emptyCardYear() {
-        DbGenerator.cleanData();
-        var card = DataGenerator.emptyYear();
-        var dashboardPage = new DashboardPage();
-        var fillPayPage = dashboardPage.buyPage();
+        var fillPayPage = dashboardPage.openBuyPage();
         fillPayPage.fillForm(card);
-        assertEquals("Неверный формат", fillPayPage.invalidData());
+        assertEquals("Неверный формат", fillPayPage.getInvalidData());
     }
 
-    @Test //ok
-    public void emptyCardYearCredit() {
+    @Test
+    public void shouldBuyWithEmptyClientName() {
         DbGenerator.cleanData();
-        var card = DataGenerator.emptyYear();
+        var card = DataGenerator.getEmptyName();
         var dashboardPage = new DashboardPage();
-        var fillCreditPage = dashboardPage.creditPage();
-        fillCreditPage.fillForm(card);
-        assertEquals("Неверный формат", fillCreditPage.wrongFormat());
-    }
-
-    @Test //ok
-    public void emptyClientName() {
-        DbGenerator.cleanData();
-        var card = DataGenerator.emptyName();
-        var dashboardPage = new DashboardPage();
-        var fillPayPage = dashboardPage.buyPage();
+        var fillPayPage = dashboardPage.openBuyPage();
         fillPayPage.fillForm(card);
-        assertEquals("Поле обязательно для заполнения", fillPayPage.invalidData());
+        assertEquals("Поле обязательно для заполнения", fillPayPage.getInvalidData());
     }
 
-    @Test //ok
-    public void emptyClientNameCredit() {
+    @Test
+    public void shouldBuyWithEmptyCvc() {
         DbGenerator.cleanData();
-        var card = DataGenerator.emptyName();
+        var card = DataGenerator.getEmptyCvc();
         var dashboardPage = new DashboardPage();
-        var fillCreditPage = dashboardPage.creditPage();
-        fillCreditPage.fillForm(card);
-        assertEquals("Поле обязательно для заполнения", fillCreditPage.wrongFormat());
-    }
-
-    @Test //ok
-    public void emptyCvc() {
-        DbGenerator.cleanData();
-        var card = DataGenerator.emptyCvc();
-        var dashboardPage = new DashboardPage();
-        var fillPayPage = dashboardPage.buyPage();
+        var fillPayPage = dashboardPage.openBuyPage();
         fillPayPage.fillForm(card);
-        assertEquals("Поле обязательно для заполнения", fillPayPage.invalidData());
+        assertEquals("Поле обязательно для заполнения", fillPayPage.getInvalidData());
     }
-
-    @Test //ok
-    public void emptyCvcCredit() {
-        DbGenerator.cleanData();
-        var card = DataGenerator.emptyCvc();
-        var dashboardPage = new DashboardPage();
-        var fillCreditPage = dashboardPage.creditPage();
-        fillCreditPage.fillForm(card);
-        assertEquals("Поле обязательно для заполнения", fillCreditPage.wrongFormat());
-    }
-
 }

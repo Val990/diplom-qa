@@ -38,15 +38,15 @@ public class CreditPage {
         continueButton.click();
     }
 
-    public void successStatus() {
+    public void getSuccessStatus() {
         success.shouldBe(visible, Duration.ofSeconds(15));
     }
 
-    public void errorStatus() {
+    public void getErrorStatus() {
         error.shouldBe(visible, Duration.ofSeconds(15));
     }
 
-    public String wrongFormat() {
+    public String getWrongFormat() {
         return formatError.getText();
     }
 

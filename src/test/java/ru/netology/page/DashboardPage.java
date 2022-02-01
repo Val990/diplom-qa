@@ -18,12 +18,12 @@ public class DashboardPage {
         creditButton.shouldBe(visible);
     }
 
-    public BuyPage buyPage() {
+    public BuyPage openBuyPage() {
         buyButton.click();
         return new BuyPage();
     }
 
-    public CreditPage creditPage() {
+    public CreditPage openCreditPage() {
         creditButton.click();
         return new CreditPage();
     }

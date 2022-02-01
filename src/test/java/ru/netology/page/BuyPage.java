@@ -36,15 +36,15 @@ public class BuyPage {
         continueButton.click();
     }
 
-    public void successStatus() {
+    public void getSuccessStatus() {
         success.shouldBe(visible, Duration.ofSeconds(15));
     }
 
-    public void errorStatus() {
+    public void getErrorStatus() {
         error.shouldBe(visible, Duration.ofSeconds(15));
     }
 
-    public String invalidData() {
+    public String getInvalidData() {
         return invalidData.getText();
     }
 }

@@ -7,10 +7,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DbGenerator {
-    // private static String url = "jdbc:mysql://localhost:3306/app_db";
     private static String url = System.getProperty("db.url");
-    private static String user = "app";
-    private static String password = "pass";
+    private static String user = System.getProperty("db.login");
+    private static String password = System.getProperty("db.password");
 
     @SneakyThrows
     public static void cleanData() {
@@ -31,7 +30,7 @@ public class DbGenerator {
     }
 
     @SneakyThrows
-    public static String status(String query) {
+    public static String getStatus(String query) {
         var runner = new QueryRunner();
         var status = "";
         try (
@@ -46,14 +45,14 @@ public class DbGenerator {
     }
 
     @SneakyThrows
-    public static String paymentStatus() {
+    public static String getPaymentStatus() {
         var statusSQL = "SELECT status FROM payment_entity;";
-        return status(statusSQL);
+        return getStatus(statusSQL);
     }
 
     @SneakyThrows
-    public static String creditStatus() {
+    public static String getCreditStatus() {
         var statusSQL = "SELECT status FROM credit_request_entity;";
-        return status(statusSQL);
+        return getStatus(statusSQL);
     }
 }
