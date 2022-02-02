@@ -41,7 +41,7 @@ public class PaymentTest {
         assertEquals("APPROVED", DbGenerator.getPaymentStatus());
     }
 
-    @Test //падает, успешно
+    @Test
     public void shouldBuyWithDeclinedCard() {
         DbGenerator.cleanData();
         var card = DataGenerator.getDeclinedCard();
@@ -52,7 +52,7 @@ public class PaymentTest {
         assertEquals("DECLINED", DbGenerator.getPaymentStatus());
     }
 
-    @Test //падает
+    @Test
     public void shouldBuyUsingNotExistCard() {
         DbGenerator.cleanData();
         var card = DataGenerator.getNotExistCard();
@@ -93,7 +93,7 @@ public class PaymentTest {
         assertEquals("Неверный формат", fillPayPage.getInvalidData());
     }
 
-    @Test //падает, успешно
+    @Test
     public void shouldBuyWithWrongClientNameCard() {
         DbGenerator.cleanData();
         var card = DataGenerator.getWrongClientNameCard();
@@ -133,7 +133,7 @@ public class PaymentTest {
         assertEquals("Истёк срок действия карты", fillPayPage.getInvalidData());
     }
 
-    @Test //падает
+    @Test
     public void shouldBuyWithSymbolsInClientNameCard() {
         DbGenerator.cleanData();
         var card = DataGenerator.getSymbolsInClientNameCard();

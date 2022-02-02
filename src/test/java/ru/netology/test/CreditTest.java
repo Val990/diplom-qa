@@ -41,7 +41,7 @@ public class CreditTest {
         assertEquals("APPROVED", DbGenerator.getCreditStatus());
     }
 
-    @Test //падает, успешно
+    @Test
     public void shouldCreditWithDeclinedCard() {
         DbGenerator.cleanData();
         var card = DataGenerator.getDeclinedCard();
@@ -52,7 +52,7 @@ public class CreditTest {
         assertEquals("DECLINED", DbGenerator.getCreditStatus());
     }
 
-    @Test // падает
+    @Test
     public void shouldCreditUsingNotExistCard() {
         DbGenerator.cleanData();
         var card = DataGenerator.getNotExistCard();
@@ -93,7 +93,7 @@ public class CreditTest {
         assertEquals("Неверный формат", fillCreditPage.getWrongFormat());
     }
 
-    @Test //падает, успешно
+    @Test
     public void shouldCreditWithWrongClientNameCard() {
         DbGenerator.cleanData();
         var card = DataGenerator.getWrongClientNameCard();
@@ -133,7 +133,7 @@ public class CreditTest {
         assertEquals("Истёк срок действия карты", fillCreditPage.getWrongFormat());
     }
 
-    @Test //падает
+    @Test
     public void shouldCreditWithSymbolsInClientNameCard() {
         DbGenerator.cleanData();
         var card = DataGenerator.getSymbolsInClientNameCard();
