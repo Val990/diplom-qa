@@ -47,4 +47,5 @@ out/
 data_mysql/
 data_postgres/
 .allure/
+.DS_Store
 
