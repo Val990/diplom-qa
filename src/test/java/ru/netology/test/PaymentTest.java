@@ -60,7 +60,7 @@ public class PaymentTest {
         var fillBuyPage = dashboardPage.openBuyPage();
         fillBuyPage.fillForm(card);
         fillBuyPage.getErrorStatus();
-        assertEquals("Ошибка", DbGenerator.getPaymentStatus());
+        assertEquals("null", DbGenerator.getPaymentStatus());
     }
 
     @Test

@@ -14,9 +14,9 @@ public class DbGenerator {
     @SneakyThrows
     public static void cleanData() {
         var runner = new QueryRunner();
-        var cleanOrder = "DELETE FROM app.order_entity";
-        var cleanPayment = "DELETE FROM app.payment_entity";
-        var cleanRequest = "DELETE FROM app.credit_request_entity";
+        var cleanOrder = "DELETE FROM order_entity";
+        var cleanPayment = "DELETE FROM payment_entity";
+        var cleanRequest = "DELETE FROM credit_request_entity";
 
         try (
                 var connection = DriverManager.getConnection(url, user, password);
@@ -46,13 +46,13 @@ public class DbGenerator {
 
     @SneakyThrows
     public static String getPaymentStatus() {
-        var statusSQL = "SELECT * FROM app.payment_entity";
+        var statusSQL = "SELECT status FROM payment_entity";
         return getStatus(statusSQL);
     }
 
     @SneakyThrows
     public static String getCreditStatus() {
-        var statusSQL = "SELECT * FROM app.credit_request_entity";
+        var statusSQL = "SELECT status FROM credit_request_entity";
         return getStatus(statusSQL);
     }
 }

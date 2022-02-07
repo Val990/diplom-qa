@@ -60,7 +60,7 @@ public class CreditTest {
         var fillCreditPage = dashboardPage.openCreditPage();
         fillCreditPage.fillForm(card);
         fillCreditPage.getErrorStatus();
-        assertEquals("Ошибка", DbGenerator.getCreditStatus());
+        assertEquals("null", DbGenerator.getCreditStatus());
     }
 
     @Test
