@@ -12,16 +12,6 @@
 
 **Неуспешные:** 10 (31,25%)
 
-По итогам тестирования сформирован Allure Report отчет:
-
-* SQL:
-<img width="1792" alt="sql tests" src="https://user-images.githubusercontent.com/87702133/152775835-a7a18e49-bc34-4efd-9cf8-07ed21cf6c1c.png">
-
-
-* PostgreSQL:
-<img width="1790" alt="post tests" src="https://user-images.githubusercontent.com/87702133/152775876-a3077c6d-7660-4c36-ac5c-a851e7f8ddf3.png">
-
-
 ### Общие рекомендации
 
 -создать подробное ТЗ для более точного понимания требований и качественного тестирования.
